@@ -1,0 +1,54 @@
+<!-- <p>to-do-board works!</p> -->
+
+<div class="container-fluid bg-light">
+  <div class="container bg-light">
+    <div class="row mt-4">
+      <div class="col"></div>
+      <div class="col-md-6 bg-white">
+        <div class="card bg-primary mt-4">
+          <h4 class="text-white p-3 pt-2 pb-2">To-Do List</h4>
+        </div>
+        <div>
+          <div class="input-group p-4">
+            <input type="text" class="form-control" placeholder="what are you doing today?" name="task" [(ngModel)]="addToDoValue">
+            <button class="btn btn-outline-success" type="button"  (click)="addTask()">+</button>
+          </div>
+        </div>
+        <h4 class="text-primary mt-4">Task :</h4>
+
+        <div style="overflow-y: auto; height: 350px;">
+         <div class="m-3" *ngFor="let task of toDoArr">
+          <div class="p-2">
+            <div class="input-group row ps-3">
+              <div class="card col-md-10 border-0">{{task.toDo_message}}</div>
+              <button class="btn btn-outline-primary col me-2" data-bs-toggle="modal" type="button" data-bs-target="#exampleModal" (click)="call(task)">E</button>
+              <div class="btn btn-outline-success col" (click)="onComplete(task)">C</div>
+            </div>
+          </div>
+         </div>
+        </div>
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Task</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="input-group p-4">
+                        <input type="text" class="form-control" placeholder="what are you doing today?" name="task" [(ngModel)]="editToDoValue">
+                        <button class="btn btn-outline-success" type="button" data-bs-dismiss="modal" (click)="editTask()">Update</button>
+                      </div>
+                    </div>
+                    <!-- <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+      </div>
+      <div class="col"></div>
+    </div>
+  </div>
+</div>
