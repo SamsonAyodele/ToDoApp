@@ -15,7 +15,9 @@ export class ToDoBoardComponent implements OnInit {
   toDoArr : ToDoItem[] = [];
   editToDoValue : string = '';
   addToDoValue : string = '';
+  // getToDoValue : string = '';
   constructor(private crudService : ToDoCrudService) { }
+
 
   ngOnInit(): void {
     this.addToDoValue = '';
@@ -23,12 +25,15 @@ export class ToDoBoardComponent implements OnInit {
     this.toDoObj = new ToDoItem();
     this.toDoArr = [];
     this.getAllTask();
+    // this.getTask();
   }
+
   getAllTask() {
     this.crudService.getAllTask() .subscribe(res => {
       this.toDoArr = res;
-    }, err => {
-      alert('unable to get list')
+    // }, err => {
+    //   alert('unable to get list')
+    localStorage.getItem(JSON.parse('ToDoItem'))
     })
   }
 
@@ -37,8 +42,9 @@ export class ToDoBoardComponent implements OnInit {
     this.crudService.addTask(this.toDoObj) .subscribe(res => {
       this.ngOnInit();
       this.addToDoValue = '';
-    }, err => {
-      alert(err)
+    // }, err => {
+    //   alert(err)
+    localStorage.setItem('ToDoItem', JSON.stringify(this.toDoObj.toDo_message))
     })
   }
 
@@ -46,18 +52,25 @@ export class ToDoBoardComponent implements OnInit {
     this.toDoObj.toDo_message = this.editToDoValue
     this.crudService.editTask(this.toDoObj) .subscribe(res => {
       this.ngOnInit();
-      }, err => {
-       alert('failed to update task')
+      // }, err => {
+      //  alert('failed to update task')
     })
   }
 
   onComplete(etask : ToDoItem) {
     this.crudService.deleteTask(etask) .subscribe(res => {
       this.ngOnInit();
-    }, err => {
-       alert('unable to delete task')
+      localStorage.removeItem('ToDoItem')
     })
   }
+
+  // getTask() {
+  //   this.toDoObj.toDo_message = this.getToDoValue
+  //   this.crudService.getTask(this.toDoObj) .subscribe(res => {
+  //     this.toDoObj = res
+  //     this.ngOnInit();
+  //   })
+  // }
 
   call(etask : ToDoItem) {
     this.toDoObj = etask;

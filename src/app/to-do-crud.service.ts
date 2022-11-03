@@ -17,6 +17,7 @@ export class ToDoCrudService {
     this.serviceURL = 'http://localhost:3000/todos'
   }
 
+
   addTask( task : ToDoItem) : Observable<ToDoItem>{
     return this.http.post<ToDoItem>(this.serviceURL, task)
   }
@@ -24,6 +25,10 @@ export class ToDoCrudService {
   getAllTask() : Observable<ToDoItem[]> {
     return this.http.get<ToDoItem[]>(this.serviceURL)
   }
+
+  // getTask(task : ToDoItem) : Observable<ToDoItem> {
+  //   return this.http.get<ToDoItem>(this.serviceURL+'/'+ task.toDo_message)
+  // }
 
   deleteTask( task : ToDoItem) : Observable<ToDoItem> {
     return this.http.delete<ToDoItem>(this.serviceURL+'/'+ task.id)
