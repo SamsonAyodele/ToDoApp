@@ -1,38 +1,8 @@
 {
   "todos": [
-    [
-      {
-        "id": 1,
-        "toDo_message": "hello"
-      },
-      {
-        "id": 2,
-        "toDo_message": "Building a new angular app  today"
-      },
-      {
-        "id": 3,
-        "toDo_message": "clothing"
-      }
-    ],
     {
-      "id": 5,
-      "toDo_message": "i want to eat "
-    },
-    {
-      "id": 8,
-      "toDo_message": "go and eat"
-    },
-    {
-      "id": 9,
-      "toDo_message": "this "
-    },
-    {
-      "id": 10,
-      "toDo_message": "ytdtdfj"
-    },
-    {
-      "id": 11,
-      "toDo_message": "fhfhfhfjfh"
+      "id" : "1",
+      "toDo_message" : "hello"
     }
   ]
 }

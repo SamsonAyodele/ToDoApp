@@ -1,6 +1,5 @@
-import { ToDoItem } from './../../to-do-item';
-import { ToDoCrudService } from './../../to-do-crud.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ToDoItem } from 'src/app/to-do-item';
 
 
 @Component({
@@ -8,72 +7,60 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './to-do-board.component.html',
   styleUrls: ['./to-do-board.component.css']
 })
+
 export class ToDoBoardComponent implements OnInit {
 
 
   toDoObj : ToDoItem = new ToDoItem();
-  toDoArr : ToDoItem[] = [];
-  editToDoValue : string = '';
+  editToDoObj : string = '';
   addToDoValue : string = '';
-  // getToDoValue : string = '';
-  constructor(private crudService : ToDoCrudService) { }
+  toDoItem : string = '';
+  toDoArr : any = [];
+  searchInput:string='';
+  constructor() { }
 
 
   ngOnInit(): void {
-    this.addToDoValue = '';
-    this.editToDoValue = '';
-    this.toDoObj = new ToDoItem();
     this.toDoArr = [];
     this.getAllTask();
-    // this.getTask();
+    this.editToDoObj = '';
+    this.addToDoValue = '';
+    this.editTask();
+    this.toDoObj = new ToDoItem
   }
 
   getAllTask() {
-    this.crudService.getAllTask() .subscribe(res => {
-      this.toDoArr = res;
-    // }, err => {
-    //   alert('unable to get list')
-    localStorage.getItem(JSON.parse('ToDoItem'))
-    })
+   var todos = localStorage.getItem('todos') ;
+   if(todos == null) this.toDoArr=[];
+   this.toDoArr = JSON.parse(todos || '[]');
+
   }
 
   addTask() {
     this.toDoObj.toDo_message = this.addToDoValue;
-    this.crudService.addTask(this.toDoObj) .subscribe(res => {
-      this.ngOnInit();
-      this.addToDoValue = '';
-    // }, err => {
-    //   alert(err)
-    localStorage.setItem('ToDoItem', JSON.stringify(this.toDoObj.toDo_message))
-    })
+    this.toDoObj.id= Math.floor(Math.random() * 100);
+    this.toDoArr.push(this.toDoObj);
+    localStorage.setItem('todos', JSON.stringify(this.toDoArr));
+    this.addToDoValue ='';
+    this.getAllTask();
+
   }
 
   editTask() {
-    this.toDoObj.toDo_message = this.editToDoValue
-    this.crudService.editTask(this.toDoObj) .subscribe(res => {
-      this.ngOnInit();
-      // }, err => {
-      //  alert('failed to update task')
-    })
+    this.toDoObj.toDo_message = this.editToDoObj;
+    // this.editToDoObj = '';
   }
 
-  onComplete(etask : ToDoItem) {
-    this.crudService.deleteTask(etask) .subscribe(res => {
-      this.ngOnInit();
-      localStorage.removeItem('ToDoItem')
-    })
+
+  onComplete(etask : ToDoItem, index:number) {
+
+    this.toDoArr.splice(index,1);
+    localStorage.setItem('todos', JSON.stringify(this.toDoArr));
   }
 
-  // getTask() {
-  //   this.toDoObj.toDo_message = this.getToDoValue
-  //   this.crudService.getTask(this.toDoObj) .subscribe(res => {
-  //     this.toDoObj = res
-  //     this.ngOnInit();
-  //   })
-  // }
 
-  call(etask : ToDoItem) {
-    this.toDoObj = etask;
-    this.editToDoValue = etask.toDo_message
+  call( todo : ToDoItem ) {
+    this.toDoObj = todo;
+    this.editToDoObj = todo.toDo_message;
   }
 }
