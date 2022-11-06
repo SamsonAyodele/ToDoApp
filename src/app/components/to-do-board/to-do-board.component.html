@@ -3,14 +3,16 @@
 <div class="container-fluid bg-light">
   <div class="container bg-light">
     <div class="row mt-4">
-      <div class="col"></div>
-      <div class="col-md-6 bg-white">
+      <!-- <div class="col"></div> -->
+      <div class="col-md-7 bg-white">
         <nav class="navbar navbar-light bg-primary mt-4 row justify-content-between">
           <a class="navbar-brand text-white p-3 pt-2 pb-2 col">ToDo List</a>
           <div class="input-group p-4 col">
             <!-- <app-search [items]="toDoArr"></app-search> -->
-            <input class="form-control" name="searchInput" type="text" placeholder="Search To-Do" size="15"
+            <input class="form-control " name="searchInput" type="text" placeholder="Search To-Do" size="10"
+
             [(ngModel)]="searchInput" >
+
 
           </div>
           <!-- <form class="form-inline col">
@@ -34,18 +36,18 @@
         <h4 class="text-primary mt-4">To-Do:</h4>
 
         <div style="overflow-y: auto; height: 350px;">
-         <div class="m-3" *ngFor="let task of toDoArr | search: searchInput; let i=index">
-          <div class="p-2 shadow border">
+         <div class="m-3" *ngFor="let task of toDoArr | search: searchInput; let i=index" >
+          <div class="p-2 shadow border" >
             <div class="input-group row ps-3">
-              <div class="card col-md-10 border-0">{{task.toDo_message}}</div>
+              <a class="card col-md-10 border-0" style="cursor: pointer; text-decoration:none" (click)="viewTask(task)" data-bs-toggle="modal" type="button" data-bs-target="#taskDetail">{{task.toDo_message}}</a>
               <button class="btn btn-outline-primary btn-sm col " data-bs-toggle="modal" type="button" data-bs-target="#exampleModal"
                 (click)="call(task)">
-                <i class="fa fa-circle-o"></i>
+                <i class="fa fa-edit"></i>
               </button>
-              <div class="btn btn-outline-success btn-sm col"
+              <a class="btn btn-outline-success btn-sm col" title="Mark as done"
                 (click)="onComplete(task, i)">
                 <i class="fa fa fa-check-square"></i>
-              </div>
+              </a>
             </div>
           </div>
          </div>
@@ -73,7 +75,57 @@
                 </div>
               </div>
       </div>
-      <div class="col"></div>
+      <div class="modal fade" id="taskDetail" tabindex="-1" aria-labelledby="taskDetailLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="taskDetailLabel">Task Detail</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="input-group p-4">
+                {{currentTask.toDo_message}}
+              </div>
+            </div>
+            <!-- <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5 mt-4 ps-3 shadow"  >
+        <h2 class="text-primary">Completed Task</h2>
+        <div style="overflow-y: auto; height: 350px;" >
+          <div class="m-3"  *ngFor="let task of completedTasks; let i=index">
+           <div class="p-2 shadow border" *ngIf="task.isComplete">
+             <div class="input-group row ps-3" >
+              <div class="col-2">
+                <span class="text-success">
+                  <i class="fa fa fa-check"></i>
+                </span>
+              </div>
+
+               <div class="card col-8 border-0">
+                <a (click)="viewTask(task)" data-bs-toggle="modal" type="button" data-bs-target="#taskDetail" style="text-decoration:strike-through">{{task.toDo_message}}</a>
+               </div>
+               <!-- <button class="btn btn-outline-primary btn-sm col " data-bs-toggle="modal" type="button" data-bs-target="#exampleModal"
+                 (click)="call(task)">
+                 <i class="fa fa-circle-o"></i>
+               </button> -->
+               <div class="col-2">
+                <a class="btn btn-outline-danger btn-sm col text-danger"
+                 (click)="markAsNotDone(task, i)">
+                 <i class="fa fa fa-arrow-left"></i>
+               </a>
+               <span class="text-sm">{{task.completedOn |date:'short'}}</span>
+               </div>
+
+             </div>
+           </div>
+          </div>
+         </div>
+      </div>
     </div>
   </div>
 </div>
