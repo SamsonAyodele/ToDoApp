@@ -15,8 +15,8 @@
         <form #todoForm="ngForm" name="todoForm" (ngSubmit)="addTask()">
           <div class="input-group p-4">
             <input type="text" class="form-control" placeholder="what are you doing today?" id="name" #toDo_message="ngModel" name="toDo_message"
-            required [(ngModel)]="addToDoValue">
-            <button class="btn btn-outline-success" type="submit">+</button>
+            required [(ngModel)]="addToDoValue" title="Start typing">
+            <button class="btn btn-outline-success" type="submit" title="Add Task">+</button>
           </div>
           <div  class="alert" [class.d-none]="toDo_message.valid || toDo_message.untouched">
                 fields is required.
@@ -27,11 +27,13 @@
          <div class="m-3" *ngFor="let task of toDoArr | search: searchInput; let i=index" >
           <div class="p-2 shadow border" >
             <div class="input-group row ps-3">
-              <a class="card col-md-10 border-0" (click)="viewTask(task)" data-bs-toggle="modal" type="button" data-bs-target="#taskDetail">{{task.toDo_message}}</a>
+              <a class="card col-md-10 border-0" (click)="viewTask(task)" data-bs-toggle="modal" type="button"
+                  data-toggle="tooltip" data-html="true" data-placement="bottom" title="{{ currentTask.dueDate | date: 'shortDate'}}"
+                  data-bs-target="#taskDetail">{{task.toDo_message}}</a>
               <!-- <span class="text-sm">{{task.completedOn | date:'shortDate'}}</span> -->
               <button class="btn btn-outline-primary btn-sm col " data-bs-toggle="modal" type="button" data-bs-target="#exampleModal"
                 (click)="call(task)">
-                <i class="fa fa-edit"></i>
+                <i class="fa fa-edit" title="Edit Task"></i>
               </button>
               <a class="btn btn-outline-success btn-sm col" title="Mark as done"
                 (click)="onComplete(task, i)">
@@ -74,7 +76,7 @@
             <div class="modal-body">
               <div class="input-group p-4">
                 {{currentTask.toDo_message}}
-                <!-- <span class="text-sm">{{currentTask.dueDate | date:'short'}}</span> -->
+                <span class="ml-4">{{ currentTask.dueDate | date: 'short'}}</span>
               </div>
             </div>
             <!-- <div class="modal-footer">
@@ -105,7 +107,7 @@
                  <i class="fa fa-circle-o"></i>
                </button> -->
                <div class="col-2">
-                <a class="btn btn-outline-danger btn-sm col text-danger"
+                <a class="btn btn-outline-danger btn-sm col text-danger" title="Return back to active task"
                  (click)="markAsNotDone(task, i)">
                  <i class="fa fa fa-arrow-left"></i>
                </a>

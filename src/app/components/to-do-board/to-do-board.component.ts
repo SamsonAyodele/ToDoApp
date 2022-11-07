@@ -36,13 +36,13 @@ export class ToDoBoardComponent implements OnInit {
     this.deleteToDoValue  = '';
     this.completeToDoItem = '';
     this.getCompletedTasks();
+
   }
 
   getAllTask() {
    var todos = localStorage.getItem('todos') ;
    if(todos == null) this.toDoArr=[];
    this.toDoArr = JSON.parse(todos || '[]');
-
 
   }
 
@@ -51,6 +51,7 @@ export class ToDoBoardComponent implements OnInit {
    if(todos == null) this.toDoArr=[];
    this.completedTasks = JSON.parse(todos || '[]');
   }
+
   addTask() {
     this.toDoObj.toDo_message = this.addToDoValue;
     this.toDoObj.id= Math.floor(Math.random() * 100);
@@ -72,7 +73,7 @@ export class ToDoBoardComponent implements OnInit {
     //this.toDoObj.toDo_message = this.completeToDoItem
     let todo = this.toDoArr.filter((x:ToDoItem )=> x.id === task.id)[0];
     // console.log(todo);
-    if(todo != null){
+    if(todo != null) {
       todo.isComplete = true;
       todo.completedOn = new Date();
       this.completedTasks.push(todo);

@@ -16,6 +16,7 @@ export class SearchComponent implements OnInit {
 
 
   @Input() items : any = [];
+
   constructor() { }
 
   ngOnInit(): void {
