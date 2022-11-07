@@ -30,3 +30,18 @@ select {
 .fa {
   font-size:24px
 }
+
+.toDoArr {
+  overflow-y: auto;
+  height: 350px;
+}
+
+.card {
+  cursor: pointer;
+  text-decoration: none;
+  color: #696969 !important;
+}
+
+.completed {
+  text-decoration: line-through;
+}

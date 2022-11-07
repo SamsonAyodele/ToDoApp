@@ -20,8 +20,9 @@ export class ToDoBoardComponent implements OnInit {
   toDoItem : string = '';
   toDoArr : any = [];
   searchInput : string = '';
+  currentTask : ToDoItem = new ToDoItem();
+  dueDate = new Date()
 
-  currentTask:ToDoItem = new ToDoItem();
   constructor() { }
 
 
@@ -56,6 +57,7 @@ export class ToDoBoardComponent implements OnInit {
     this.toDoArr.push(this.toDoObj);
     localStorage.setItem('todos', JSON.stringify(this.toDoArr));
     this.addToDoValue ='';
+    this.dueDate = new Date();
     this.getAllTask();
 
   }
@@ -69,9 +71,9 @@ export class ToDoBoardComponent implements OnInit {
   onComplete(task : ToDoItem, index:number) {
     //this.toDoObj.toDo_message = this.completeToDoItem
     let todo = this.toDoArr.filter((x:ToDoItem )=> x.id === task.id)[0];
-    console.log(todo);
-    if(todo!=null){
-      todo.isComplete=true;
+    // console.log(todo);
+    if(todo != null){
+      todo.isComplete = true;
       todo.completedOn = new Date();
       this.completedTasks.push(todo);
       this.toDoArr.splice(index,1);
@@ -90,7 +92,6 @@ export class ToDoBoardComponent implements OnInit {
   }
 
   markAsNotDone(task : ToDoItem, i:number) {
-
     this.toDoArr.push(task);
     this.updateTodoStore();
     this.completedTasks.splice(i,1);
@@ -102,7 +103,8 @@ export class ToDoBoardComponent implements OnInit {
     this.toDoObj = todo;
     this.editToDoObj = todo.toDo_message;
   }
-  viewTask(task:ToDoItem){
+
+  viewTask(task : ToDoItem){
     this.currentTask = task;
   }
 }

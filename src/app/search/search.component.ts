@@ -8,18 +8,14 @@ import { Component, Input, OnInit, Pipe } from '@angular/core';
 })
 export class SearchComponent implements OnInit {
 
-  // title = 'instant-search';
+
 
      searchInput: string = '';
 
      toDoArr : any = [];
 
-    //  SearchPipe = Pipe
-  //   public programmingLanguages = [
-  //     'Python','TypeScript','C','C++','Java',
-  //     'Go','JavaScript','PHP','Ruby','Swift','Kotlin'
-  //  ]
-  @Input() items:any=[];
+
+  @Input() items : any = [];
   constructor() { }
 
   ngOnInit(): void {

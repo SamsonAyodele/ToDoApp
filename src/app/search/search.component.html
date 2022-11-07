@@ -1,12 +1,12 @@
 <!-- <p>search works!</p> -->
 <section>
-  <!-- <h5> Dynamic search results </h5> -->
+
   <input class="form-control" name="searchInput" type="text" placeholder="Search To-Do"
   [(ngModel)]="searchInput"
   size="15">
 
   <article>
-    <!-- <h6> Results </h6> -->
+
     <ul>
       <li *ngFor="let task of toDoArr | search: searchInput">
          {{task.toDo_message}}
