@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ToDoCrudService } from 'src/app/to-do-crud.service';
 import { ToDoItem } from 'src/app/to-do-item';
 
 
@@ -9,6 +11,7 @@ import { ToDoItem } from 'src/app/to-do-item';
 })
 
 export class ToDoBoardComponent implements OnInit {
+
 
 
   toDoObj : ToDoItem = new ToDoItem();
@@ -23,10 +26,12 @@ export class ToDoBoardComponent implements OnInit {
   currentTask : ToDoItem = new ToDoItem();
   dueDate = new Date()
 
-  constructor() { }
+  constructor(private todoService: ToDoCrudService) { }
 
+  toDoItems$ = Observable<ToDoItem[]>;
 
   ngOnInit(): void {
+    // this.toDoItems$ = this.todoService.toDoItems$
     this.toDoArr = [];
     this.getAllTask();
     this.editToDoObj = '';
@@ -40,14 +45,16 @@ export class ToDoBoardComponent implements OnInit {
   }
 
   getAllTask() {
-   var todos = localStorage.getItem('todos') ;
+  //  var todos = localStorage.getItem('todos');
+  var todos = this.todoService.toDoObj.next(Object.assign([], this.todoService.toDoArr))
    if(todos == null) this.toDoArr=[];
    this.toDoArr = JSON.parse(todos || '[]');
 
   }
 
   getCompletedTasks(){
-    var todos = localStorage.getItem('completedTodos') ;
+    // var todos = localStorage.getItem('completedTodos') ;
+    var todos = this.todoService.toDoObj.next(Object.assign([], this.todoService.toDoArr))
    if(todos == null) this.toDoArr=[];
    this.completedTasks = JSON.parse(todos || '[]');
   }
@@ -56,7 +63,8 @@ export class ToDoBoardComponent implements OnInit {
     this.toDoObj.toDo_message = this.addToDoValue;
     this.toDoObj.id= Math.floor(Math.random() * 100);
     this.toDoArr.push(this.toDoObj);
-    localStorage.setItem('todos', JSON.stringify(this.toDoArr));
+    // localStorage.setItem('todos', JSON.stringify(this.toDoArr));
+    this.todoService.toDoObj.next(Object.assign([], this.todoService.toDoArr))
     this.addToDoValue ='';
     this.dueDate = new Date();
     this.getAllTask();
@@ -70,7 +78,7 @@ export class ToDoBoardComponent implements OnInit {
 
 
   onComplete(task : ToDoItem, index:number) {
-    //this.toDoObj.toDo_message = this.completeToDoItem
+    this.toDoObj.toDo_message = this.completeToDoItem
     let todo = this.toDoArr.filter((x:ToDoItem )=> x.id === task.id)[0];
     // console.log(todo);
     if(todo != null) {
@@ -80,16 +88,19 @@ export class ToDoBoardComponent implements OnInit {
       this.toDoArr.splice(index,1);
       this.updateTodoStore();
       this.updateCompletedTasksStore();
+      // this.todoService.toDoObj.next(Object.assign([], this.todoService.toDoArr))
     }else{
       console.log("something",task);
     }
   }
 
   updateTodoStore(){
-    localStorage.setItem('todos', JSON.stringify(this.toDoArr));
+    // localStorage.setItem('todos', JSON.stringify(this.toDoArr));
+    this.todoService.toDoObj.next(Object.assign([], this.todoService.toDoArr))
   }
   updateCompletedTasksStore(){
-    localStorage.setItem('completedTodos', JSON.stringify(this.completedTasks));
+    // localStorage.setItem('completedTodos', JSON.stringify(this.completedTasks));
+    this.todoService.toDoObj.next(Object.assign([], this.todoService.toDoArr))
   }
 
   markAsNotDone(task : ToDoItem, i:number) {
@@ -97,6 +108,7 @@ export class ToDoBoardComponent implements OnInit {
     this.updateTodoStore();
     this.completedTasks.splice(i,1);
     this.updateCompletedTasksStore();
+    // this.todoService.toDoObj.next(Object.assign([], this.todoService.toDoArr))
   }
 
 

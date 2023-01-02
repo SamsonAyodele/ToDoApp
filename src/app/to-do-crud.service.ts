@@ -1,21 +1,32 @@
+import { Observable } from 'rxjs';
 // // import { ToDoCrudService } from './to-do-crud.service';
 // import { ToDoItem } from './to-do-item';
 
-// import { HttpClient } from '@angular/common/http';
-// import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { ToDoItem } from './to-do-item';
 // import { Observable } from 'rxjs';
 
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class ToDoCrudService {
 
 
-//   serviceURL : string;
+@Injectable({
+  providedIn: 'root'
+})
+export class ToDoCrudService {
 
-//   constructor(private http: HttpClient) {
-//     this.serviceURL = "http://localhost:3000/todos"
-//   }
+  toDoObj: any
+  private toDoObj$ = new BehaviorSubject<ToDoItem[]>([])
+
+  public toDoItems$ = this.toDoObj$.asObservable();
+
+  toDoArr: ToDoItem[] = [];
+  // getToDoItem(): Observable<ToDoItem> {
+  //   return this.toDoItems
+
+
+  constructor() {}
+
 
 
 //   addTask( task : ToDoItem) {
@@ -37,4 +48,4 @@
 //   editTask( task : ToDoItem)  {
 //     return this.http.put<ToDoItem>(`this.serviceURL${task.id}`, task)
 //   }
-// }
+}

@@ -6,4 +6,3 @@ export class ToDoItem {
   completedOn? : Date;
 }
 
-
